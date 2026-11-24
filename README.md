@@ -31,6 +31,7 @@ plug-in repo (private): git tag v1.0.0
 | `tests/test_build_catalog.py` | Offline tests of the builder (run on every build) |
 | `examples/catalog.example.json` | A sample catalog with fake checksums, for developing the app |
 | `.github/workflows/build-catalog.yml` | Builds and publishes; runs on "plugin-released", on changes in `plugins/`, nightly, or by hand |
+| `.github/workflows/publish-plugin.yml` | Shared step that every plug-in repo calls: creates the release here and signals "plugin-released" |
 
 ## Rules
 
@@ -46,7 +47,8 @@ plug-in repo (private): git tag v1.0.0
 
 1. `plugins/<id>/plugin.json` (copy `reckys-velvet` and adapt).
 2. `plugins/<id>/faceplate.png`.
-3. In the plug-in repo: the release workflow for Central (ZIP release + signal).
+3. In the plug-in repo: a `publish` job that calls `publish-plugin.yml` (see its header; VELVET's `Comp165` is the
+   model), a `CHANGELOG.md`, `release_central.sh`, and the secret `CENTRAL_TOKEN`.
 4. Tag the first release and check that `catalog.json` lists the plug-in.
 
 ## Test locally (optional)

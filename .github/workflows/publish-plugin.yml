@@ -1,0 +1,92 @@
+# Shared step for every plug-in repo: puts a finished release into this repository and rebuilds the catalog.
+# Called from a plug-in's workflow after its Mac and Windows builds, when a tag vX.Y.Z was pushed:
+#
+#   publish:
+#     if: startsWith(github.ref, 'refs/tags/v')
+#     needs: [mac, windows]
+#     uses: ReckyReck/eifel-catalog/.github/workflows/publish-plugin.yml@main
+#     with: { plugin_id: reckys-velvet, title: "Recky's Velvet" }
+#     secrets: { CENTRAL_TOKEN: "${{ secrets.CENTRAL_TOKEN }}" }
+#
+# Expects: build artifacts "Central-macos" and "Central-windows" with <Name>-<version>-macos.zip / -windows.zip,
+# a CHANGELOG.md with a section "## <version>", and the secret CENTRAL_TOKEN (fine-grained token, only repository
+# eifel-catalog, permission "Contents: Read and write").
+name: Publish plug-in to Central
+
+on:
+  workflow_call:
+    inputs:
+      plugin_id:
+        description: "Catalog id, e.g. reckys-velvet (must exist as plugins/<id>/plugin.json here)"
+        required: true
+        type: string
+      title:
+        description: "Display name for the release, e.g. Recky's Velvet"
+        required: true
+        type: string
+    secrets:
+      CENTRAL_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CATALOG_REPO: ReckyReck/eifel-catalog
+      PLUGIN_ID: ${{ inputs.plugin_id }}
+      TITLE: ${{ inputs.title }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version and changelog
+        run: |
+          set -euo pipefail
+          V="${GITHUB_REF_NAME#v}"
+          [[ "$V" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo "::error::Tag '$GITHUB_REF_NAME' is not vX.Y.Z"; exit 1; }
+          CM="$(sed -n 's/^project([^)]*VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt | head -n 1)"
+          [ "$CM" = "$V" ] || { echo "::error::Tag says $V but CMakeLists.txt says $CM"; exit 1; }
+          awk -v v="## $V" '$0==v{f=1;next} /^## /{f=0} f&&NF{print}' CHANGELOG.md > notes.md
+          grep -q '^- ' notes.md || { echo "::error::CHANGELOG.md has no '## $V' section with '- ' lines"; exit 1; }
+          echo "VERSION=$V" >> "$GITHUB_ENV"
+          echo "Changelog for $V:"; cat notes.md
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Central-*
+          path: dist
+          merge-multiple: true
+
+      - name: Check the zips
+        run: |
+          set -euo pipefail
+          ls -l dist
+          for p in macos windows; do
+            n=$(ls dist | grep -c -- "-$VERSION-$p\.zip$" || true)
+            [ "$n" = 1 ] || { echo "::error::expected one *-$VERSION-$p.zip, found $n"; exit 1; }
+          done
+          [ "$(ls dist | wc -l)" = 2 ] || { echo "::error::unexpected files in the build"; exit 1; }
+          for z in dist/*.zip; do unzip -tq "$z"; unzip -Z1 "$z" | cut -d/ -f1 | sort -u; done
+
+      - name: Create the release in eifel-catalog
+        env:
+          GH_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="$PLUGIN_ID-v$VERSION"
+          if gh release view "$TAG" --repo "$CATALOG_REPO" >/dev/null 2>&1; then
+            echo "::error::$TAG already exists in $CATALOG_REPO. Raise the version."; exit 1
+          fi
+          gh release create "$TAG" dist/*.zip --repo "$CATALOG_REPO" --target main \
+            --title "$TITLE $VERSION" --notes-file notes.md
+
+      - name: Tell the catalog to rebuild
+        env:
+          GH_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+        run: |
+          gh api "repos/$CATALOG_REPO/dispatches" -f event_type=plugin-released \
+            -f "client_payload[plugin_id]=$PLUGIN_ID" -f "client_payload[version]=$VERSION"
+          echo "Done: https://github.com/$CATALOG_REPO/releases/tag/$PLUGIN_ID-v$VERSION"
