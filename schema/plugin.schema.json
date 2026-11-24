@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://reckyreck.github.io/eifel-catalog/schema/plugin.schema.json",
+  "title": "Eifel Mastering Central - one plug-in (plugins/<id>/plugin.json)",
+  "type": "object",
+  "required": ["id", "name", "tagline", "category", "formats", "bundleNames", "minOS"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "tagline": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "category": { "type": "string", "minLength": 1 },
+    "image": { "type": "string", "pattern": "^plugins/[a-z0-9-]+/[^/]+\\.png$" },
+    "channel": { "enum": ["stable", "beta"], "default": "stable" },
+    "formats": {
+      "type": "object",
+      "properties": {
+        "macos": { "type": "array", "items": { "enum": ["au", "vst3", "clap"] }, "uniqueItems": true, "minItems": 1 },
+        "windows": { "type": "array", "items": { "enum": ["vst3", "clap"] }, "uniqueItems": true, "minItems": 1 }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "bundleNames": {
+      "type": "object",
+      "properties": {
+        "au": { "type": "string", "pattern": "^[^/\\\\]+\\.component$" },
+        "vst3": { "type": "string", "pattern": "^[^/\\\\]+\\.vst3$" },
+        "clap": { "type": "string", "pattern": "^[^/\\\\]+\\.clap$" }
+      },
+      "minProperties": 1,
+      "additionalProperties": false
+    },
+    "bundleId": { "type": "string", "pattern": "^[A-Za-z0-9.-]+$" },
+    "minOS": {
+      "type": "object",
+      "properties": { "macos": { "type": "string" }, "windows": { "type": "string" } },
+      "additionalProperties": false
+    }
+  }
+}

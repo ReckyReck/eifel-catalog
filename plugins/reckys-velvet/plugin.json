@@ -1,0 +1,11 @@
+{
+  "id": "reckys-velvet",
+  "name": "Recky's Velvet",
+  "tagline": "Four classic studio compressors in one rack",
+  "category": "Dynamics",
+  "image": "plugins/reckys-velvet/faceplate.png",
+  "formats": { "macos": ["au", "vst3"], "windows": ["vst3"] },
+  "bundleNames": { "au": "Reckys Velvet.component", "vst3": "Reckys Velvet.vst3" },
+  "bundleId": "com.mystudio.comp165",
+  "minOS": { "macos": "13.0", "windows": "10" }
+}

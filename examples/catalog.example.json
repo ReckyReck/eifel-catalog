@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-24T10:00:00Z",
+  "plugins": [
+    {
+      "id": "reckys-velvet",
+      "name": "Recky's Velvet",
+      "tagline": "Four classic studio compressors in one rack",
+      "category": "Dynamics",
+      "image": null,
+      "channel": "stable",
+      "formats": {
+        "macos": [
+          "au",
+          "vst3"
+        ],
+        "windows": [
+          "vst3"
+        ]
+      },
+      "bundleNames": {
+        "au": "Reckys Velvet.component",
+        "vst3": "Reckys Velvet.vst3"
+      },
+      "bundleId": "com.mystudio.comp165",
+      "latest": {
+        "version": "1.0.0",
+        "releasedAt": "2026-11-24",
+        "changelog": [
+          "First release in Eifel Mastering Central",
+          "Four units: Satin, Walnut, Cotton, Denim"
+        ],
+        "minOS": {
+          "macos": "13.0",
+          "windows": "10"
+        },
+        "assets": [
+          {
+            "platform": "macos",
+            "arch": "universal",
+            "url": "https://github.com/ReckyReck/eifel-catalog/releases/download/reckys-velvet-v1.0.0/ReckysVelvet-1.0.0-macos.zip",
+            "sha256": "d1e3615bfff61a9897dafffd6c47c463b06a240a0c05f2bd1727e7867b834956",
+            "size": 352,
+            "contains": [
+              "au",
+              "vst3"
+            ]
+          },
+          {
+            "platform": "windows",
+            "arch": "x64",
+            "url": "https://github.com/ReckyReck/eifel-catalog/releases/download/reckys-velvet-v1.0.0/ReckysVelvet-1.0.0-windows.zip",
+            "sha256": "faa12d45fae52765ed16d7e4900001f07b207ad027a5b5ff501d985d52dfe2df",
+            "size": 182,
+            "contains": [
+              "vst3"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

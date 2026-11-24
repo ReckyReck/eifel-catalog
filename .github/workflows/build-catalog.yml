@@ -1,0 +1,58 @@
+# Builds catalog.json and publishes it on GitHub Pages: https://reckyreck.github.io/eifel-catalog/catalog.json
+# Runs by itself when a plug-in's release workflow signals "plugin-released", when plugins/ changes, and once a night.
+# By hand (e.g. after editing a release on the website): github.com > eifel-catalog > Actions > "Build catalog" > Run workflow.
+# (No "release" trigger: GitHub Pages only accepts deployments from the main branch, release events run on the tag.)
+name: Build catalog
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  push:
+    branches: [main]
+    paths: ["plugins/**", "schema/**", "scripts/**", "site/**", "tests/**"]
+  repository_dispatch:
+    types: [plugin-released]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the checker
+        run: pip install "jsonschema>=4.18"
+      - name: Test the builder (offline)
+        run: python3 tests/test_build_catalog.py
+      - name: Build catalog.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/build_catalog.py --out _site
+      - name: Show the catalog
+        run: cat _site/catalog.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
