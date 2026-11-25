@@ -1,0 +1,25 @@
+{
+  "id": "reckys-mono",
+  "name": "Recky's Mono",
+  "tagline": "Monophonic analog-style synthesizer with sequencer and arpeggiator",
+  "category": "Instruments",
+  "image": "plugins/reckys-mono/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Mono.component",
+    "vst3": "Reckys Mono.vst3"
+  },
+  "bundleId": "com.mystudio.r101",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
