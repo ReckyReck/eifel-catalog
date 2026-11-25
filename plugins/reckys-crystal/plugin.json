@@ -1,0 +1,25 @@
+{
+  "id": "reckys-crystal",
+  "name": "Recky's Crystal",
+  "tagline": "LA-synthesis digital synthesizer that loads D-50 SysEx banks",
+  "category": "Instruments",
+  "image": "plugins/reckys-crystal/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Crystal.component",
+    "vst3": "Reckys Crystal.vst3"
+  },
+  "bundleId": "com.mystudio.d50",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
