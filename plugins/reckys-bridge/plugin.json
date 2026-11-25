@@ -1,0 +1,11 @@
+{
+  "id": "reckys-bridge",
+  "name": "Recky's Bridge",
+  "tagline": "Stereo diode-bridge compressor / limiter with gain-reduction meters",
+  "category": "Dynamics",
+  "image": "plugins/reckys-bridge/faceplate.png",
+  "formats": { "macos": ["au", "vst3"], "windows": ["vst3"] },
+  "bundleNames": { "au": "Reckys Bridge.component", "vst3": "Reckys Bridge.vst3" },
+  "bundleId": "com.mystudio.reckys609",
+  "minOS": { "macos": "13.0", "windows": "10" }
+}
