@@ -1,0 +1,11 @@
+{
+  "id": "reckys-big",
+  "name": "Recky's BIG",
+  "tagline": "U47-style tube and transformer stage for modern condenser microphones",
+  "category": "Saturation",
+  "image": "plugins/reckys-big/faceplate.png",
+  "formats": { "macos": ["au", "vst3"], "windows": ["vst3"] },
+  "bundleNames": { "au": "Reckys BIG.component", "vst3": "Reckys BIG.vst3" },
+  "bundleId": "com.mystudio.reckysbig",
+  "minOS": { "macos": "13.0", "windows": "10" }
+}
