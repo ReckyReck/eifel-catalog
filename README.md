@@ -11,9 +11,11 @@ The public plug-in catalog for **Eifel Mastering Central**. This repository hold
 ## How a release flows
 
 ```
-plug-in repo (private): git tag v1.0.0
-   └─ GitHub Actions builds Mac + Windows, zips the bundles
-      └─ creates release "reckys-velvet-v1.0.0" HERE with the two ZIPs, then signals "plugin-released"
+Recky's Mac: bash release_central.sh (in the plug-in folder)
+   └─ builds the Mac version locally, puts its ZIP into a hidden DRAFT release "reckys-velvet-v0.2.0" HERE,
+      pushes the tag v0.2.0 in the private plug-in repo
+      └─ GitHub Actions builds Windows only, zips the bundle
+         └─ "Publish" adds the Windows ZIP to the draft, publishes it, then signals "plugin-released"
          └─ workflow "Build catalog" downloads the ZIPs, checks the bundles are inside,
             computes SHA-256 + size, validates, publishes catalog.json
             └─ Central shows "UPDATE READY"

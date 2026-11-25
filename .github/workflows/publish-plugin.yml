@@ -8,7 +8,8 @@
 #     with: { plugin_id: reckys-velvet, title: "Recky's Velvet" }
 #     secrets: { CENTRAL_TOKEN: "${{ secrets.CENTRAL_TOKEN }}" }
 #
-# Expects: build artifacts "Central-macos" and "Central-windows" with <Name>-<version>-macos.zip / -windows.zip,
+# Expects: build artifact "Central-windows" (<Name>-<version>-windows.zip) and the Mac zip either as artifact
+# "Central-macos" or in a hidden DRAFT release <id>-v<version> here (uploaded from Recky's Mac by release_central.sh),
 # a CHANGELOG.md with a section "## <version>", and the secret CENTRAL_TOKEN (fine-grained token, only repository
 # eifel-catalog, permission "Contents: Read and write").
 name: Publish plug-in to Central
@@ -60,6 +61,37 @@ jobs:
           path: dist
           merge-multiple: true
 
+      # The Mac zip normally comes from Recky's Mac (release_central.sh): a hidden DRAFT release with that zip.
+      # If there is no draft, the Mac zip must be among this run's build artifacts (full build on GitHub).
+      - name: Find the release (published / draft from Recky's Mac)
+        env:
+          GH_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="$PLUGIN_ID-v$VERSION"
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          gh api --paginate "repos/$CATALOG_REPO/releases?per_page=100" --jq '.[]' | jq -s . > releases.json
+          jq -e --arg t "$TAG" 'map(select(.tag_name == $t and (.draft | not))) | length == 0' releases.json >/dev/null \
+            || { echo "::error::$TAG is already published in $CATALOG_REPO. Raise the version."; exit 1; }
+          DRAFT_ID="$(jq -r --arg t "$TAG" '[.[] | select(.tag_name == $t and .draft)][0].id // empty' releases.json)"
+          echo "DRAFT_ID=$DRAFT_ID" >> "$GITHUB_ENV"
+          if [ -n "$DRAFT_ID" ]; then
+            echo "Draft from Recky's Mac found (id $DRAFT_ID):"
+            jq -r --arg t "$TAG" '.[] | select(.tag_name == $t and .draft) | .assets[] | "  \(.name)  \(.size) bytes"' releases.json
+            ASSET_ID="$(jq -r --arg t "$TAG" --arg v "$VERSION" '[.[] | select(.tag_name == $t and .draft) | .assets[] | select(.name | endswith("-" + $v + "-macos.zip"))][0].id // empty' releases.json)"
+            [ -n "$ASSET_ID" ] || { echo "::error::the draft $TAG has no *-$VERSION-macos.zip - run release_central.sh again"; exit 1; }
+            NAME="$(jq -r --arg a "$ASSET_ID" '.[] | .assets[] | select((.id|tostring) == $a) | .name' releases.json)"
+            if ls dist | grep -q -- "-macos\.zip$"; then echo "::error::both a Mac draft and a Mac build - unexpected"; exit 1; fi
+            gh api -H "Accept: application/octet-stream" "repos/$CATALOG_REPO/releases/assets/$ASSET_ID" > "dist/$NAME"
+            echo "DRAFT_MAC=$NAME" >> "$GITHUB_ENV"
+          fi
+          HIGHEST="$(jq -r '.[].tag_name' releases.json \
+                     | sed -n "s/^$PLUGIN_ID-v\([0-9]*\.[0-9]*\.[0-9]*\)$/\1/p" | sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)"
+          if [ -n "$HIGHEST" ]; then
+            TOP="$(printf '%s\n%s\n' "$HIGHEST" "$VERSION" | sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)"
+            [ "$TOP" = "$VERSION" ] || { echo "::error::$PLUGIN_ID $HIGHEST is already in the catalog; $VERSION is lower. Raise the version."; exit 1; }
+          fi
+
       - name: Check the zips
         run: |
           set -euo pipefail
@@ -71,25 +103,26 @@ jobs:
           [ "$(ls dist | wc -l)" = 2 ] || { echo "::error::unexpected files in the build"; exit 1; }
           for z in dist/*.zip; do unzip -tq "$z"; unzip -Z1 "$z" | cut -d/ -f1 | sort -u; done
 
-      - name: Create the release in eifel-catalog
+      - name: Publish the release in eifel-catalog
         env:
           GH_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
         run: |
           set -euo pipefail
-          TAG="$PLUGIN_ID-v$VERSION"
-          if gh release view "$TAG" --repo "$CATALOG_REPO" >/dev/null 2>&1; then
-            echo "::error::$TAG already exists in $CATALOG_REPO. Raise the version."; exit 1
+          if [ -n "$DRAFT_ID" ]; then
+            UPLOAD="https://uploads.github.com/repos/$CATALOG_REPO/releases/$DRAFT_ID/assets"
+            for z in dist/*.zip; do
+              n="$(basename "$z")"; [ "$n" = "$DRAFT_MAC" ] && continue      # already in the draft
+              echo "adding $n to the draft"
+              curl -fsS -X POST -H "Authorization: Bearer $GH_TOKEN" -H "Content-Type: application/zip" \
+                   --data-binary @"$z" "$UPLOAD?name=$n" > /dev/null
+            done
+            gh api -X PATCH "repos/$CATALOG_REPO/releases/$DRAFT_ID" -f tag_name="$TAG" -f target_commitish=main \
+               -f name="$TITLE $VERSION" -F body=@notes.md -F draft=false > /dev/null
+            echo "Published the draft $TAG (Mac from Recky's Mac, Windows from this run)"
+          else
+            gh release create "$TAG" dist/*.zip --repo "$CATALOG_REPO" --target main \
+              --title "$TITLE $VERSION" --notes-file notes.md
           fi
-          HIGHEST="$(gh release list --repo "$CATALOG_REPO" --limit 200 --json tagName --jq '.[].tagName' \
-                     | sed -n "s/^$PLUGIN_ID-v\([0-9]*\.[0-9]*\.[0-9]*\)$/\1/p" | sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)"
-          if [ -n "$HIGHEST" ]; then
-            TOP="$(printf '%s\n%s\n' "$HIGHEST" "$VERSION" | sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)"
-            if [ "$TOP" != "$VERSION" ]; then
-              echo "::error::$PLUGIN_ID $HIGHEST is already in the catalog; $VERSION is lower. Raise the version."; exit 1
-            fi
-          fi
-          gh release create "$TAG" dist/*.zip --repo "$CATALOG_REPO" --target main \
-            --title "$TITLE $VERSION" --notes-file notes.md
 
       - name: Tell the catalog to rebuild
         env:

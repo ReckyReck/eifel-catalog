@@ -1,0 +1,11 @@
+{
+  "id": "reckys-rider",
+  "name": "Recky's Rider",
+  "tagline": "Automatic vocal level rider that writes its moves as automation",
+  "category": "Dynamics",
+  "image": "plugins/reckys-rider/faceplate.png",
+  "formats": { "macos": ["au", "vst3"], "windows": ["vst3"] },
+  "bundleNames": { "au": "Reckys Rider.component", "vst3": "Reckys Rider.vst3" },
+  "bundleId": "com.mystudio.reckysrider",
+  "minOS": { "macos": "13.0", "windows": "10" }
+}

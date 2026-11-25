@@ -60,7 +60,7 @@ with tempfile.TemporaryDirectory() as t:
     rels = [release("reckys-velvet-v1.0.0", "1.0.0", ["ReckysVelvet-1.0.0-macos.zip", "ReckysVelvet-1.0.0-windows.zip"]),
             release("reckys-velvet-v1.1.0", "1.1.0", ["ReckysVelvet-1.1.0-macos.zip", "ReckysVelvet-1.1.0-windows.zip"]),
             release("reckys-velvet-v2.0.0", "2.0.0", [], prerelease=True),
-            release("reckys-rider-v9.0.0", "9.0.0", [])]
+            release("reckys-example-v9.0.0", "9.0.0", [])]   # a plug-in with no plugin.json here: ignored
     code, cat, out = run(d, rels, GOOD)
     check("builds a valid catalog", code == 0, out)
     if cat:
