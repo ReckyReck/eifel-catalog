@@ -1,0 +1,25 @@
+{
+  "id": "reckys-gbs",
+  "name": "Recky's GBS",
+  "tagline": "Spring reverb after a British studio classic: two 3-spring tanks in a pipe",
+  "category": "Reverb",
+  "image": "plugins/reckys-gbs/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys GBS.component",
+    "vst3": "Reckys GBS.vst3"
+  },
+  "bundleId": "com.mystudio.gbs",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
