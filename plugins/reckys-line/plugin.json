@@ -1,0 +1,11 @@
+{
+  "id": "reckys-line",
+  "name": "Recky's Line",
+  "tagline": "Three classic tube and transistor line amplifiers, modelled for mastering",
+  "category": "Saturation",
+  "image": "plugins/reckys-line/faceplate.png",
+  "formats": { "macos": ["au", "vst3"], "windows": ["vst3"] },
+  "bundleNames": { "au": "Reckys Line.component", "vst3": "Reckys Line.vst3" },
+  "bundleId": "com.mystudio.reckysline",
+  "minOS": { "macos": "13.0", "windows": "10" }
+}
