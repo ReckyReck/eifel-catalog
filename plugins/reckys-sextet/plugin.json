@@ -1,0 +1,25 @@
+{
+  "id": "reckys-sextet",
+  "name": "Recky's Sextet",
+  "tagline": "Six-voice polyphonic synthesizer with arpeggiator and stereo chorus",
+  "category": "Instruments",
+  "image": "plugins/reckys-sextet/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Sextet.component",
+    "vst3": "Reckys Sextet.vst3"
+  },
+  "bundleId": "com.mystudio.juno60",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
