@@ -1,0 +1,25 @@
+{
+  "id": "reckys-drums",
+  "name": "Recky's Drums",
+  "tagline": "16-pad drum sampler with E-III and SP-1200 style engines",
+  "category": "Instruments",
+  "image": "plugins/reckys-drums/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Drums.component",
+    "vst3": "Reckys Drums.vst3"
+  },
+  "bundleId": "com.mystudio.e3drums",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
