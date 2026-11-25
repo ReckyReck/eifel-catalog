@@ -1,0 +1,25 @@
+{
+  "id": "reckys-phosphor",
+  "name": "Recky's Phosphor",
+  "tagline": "Sampling-workstation style player for Kontakt libraries",
+  "category": "Instruments",
+  "image": "plugins/reckys-phosphor/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Phosphor.component",
+    "vst3": "Reckys Phosphor.vst3"
+  },
+  "bundleId": "com.mystudio.reckyscmi",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
