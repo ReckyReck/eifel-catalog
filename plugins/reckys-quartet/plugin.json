@@ -1,0 +1,25 @@
+{
+  "id": "reckys-quartet",
+  "name": "Recky's Quartet",
+  "tagline": "Four-voice polyphonic synthesizer with arpeggiator and compu-memory",
+  "category": "Instruments",
+  "image": "plugins/reckys-quartet/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Quartet.component",
+    "vst3": "Reckys Quartet.vst3"
+  },
+  "bundleId": "com.mystudio.poly4",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
