@@ -1,0 +1,25 @@
+{
+  "id": "reckys-ladder",
+  "name": "Recky's Ladder",
+  "tagline": "Monophonic ladder-filter synthesizer with three oscillators",
+  "category": "Instruments",
+  "image": "plugins/reckys-ladder/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Ladder.component",
+    "vst3": "Reckys Ladder.vst3"
+  },
+  "bundleId": "com.mystudio.modeld",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
