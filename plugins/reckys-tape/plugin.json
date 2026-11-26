@@ -1,0 +1,25 @@
+{
+  "id": "reckys-tape",
+  "name": "Recky's Tape",
+  "tagline": "Quarter-inch tape at 15 ips: saturation, head bump, hiss and a trace of flutter",
+  "category": "Saturation",
+  "image": "plugins/reckys-tape/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Tape.component",
+    "vst3": "Reckys Tape.vst3"
+  },
+  "bundleId": "com.mystudio.tape",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
