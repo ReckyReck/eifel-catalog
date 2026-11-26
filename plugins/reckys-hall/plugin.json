@@ -1,0 +1,25 @@
+{
+  "id": "reckys-hall",
+  "name": "Recky's Hall",
+  "tagline": "Two classic studio digital reverbs in one: the 1978 224 and the 1986 480L",
+  "category": "Reverb",
+  "image": "plugins/reckys-hall/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Hall.component",
+    "vst3": "Reckys Hall.vst3"
+  },
+  "bundleId": "com.mystudio.reckyshall",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}

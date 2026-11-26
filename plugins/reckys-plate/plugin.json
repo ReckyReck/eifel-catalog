@@ -1,0 +1,25 @@
+{
+  "id": "reckys-plate",
+  "name": "Recky's Plate",
+  "tagline": "Studio steel plate reverb, modelled resonance by resonance from the manual",
+  "category": "Reverb",
+  "image": "plugins/reckys-plate/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Plate.component",
+    "vst3": "Reckys Plate.vst3"
+  },
+  "bundleId": "com.mystudio.reckysplate",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
