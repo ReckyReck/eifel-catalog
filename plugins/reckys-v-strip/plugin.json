@@ -1,0 +1,25 @@
+{
+  "id": "reckys-v-strip",
+  "name": "Recky's V-Strip",
+  "tagline": "1980s British console channel: input, filters, four-band EQ, dynamics, tape",
+  "category": "Dynamics",
+  "image": "plugins/reckys-v-strip/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys V-Strip.component",
+    "vst3": "Reckys V-Strip.vst3"
+  },
+  "bundleId": "com.mystudio.vstrip",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "reckys-v",
+  "name": "Recky's V",
+  "tagline": "1950s German tube microphone amplifier, with EQ, leveler and tape cassettes",
+  "category": "Saturation",
+  "image": "plugins/reckys-v/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys V.component",
+    "vst3": "Reckys V.vst3"
+  },
+  "bundleId": "com.mystudio.v76",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}

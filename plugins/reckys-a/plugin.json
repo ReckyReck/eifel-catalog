@@ -1,0 +1,25 @@
+{
+  "id": "reckys-a",
+  "name": "Recky's A",
+  "tagline": "A-type noise reduction card used as an enhancer: lifts only the quiet detail",
+  "category": "Dynamics",
+  "image": "plugins/reckys-a/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys A.component",
+    "vst3": "Reckys A.vst3"
+  },
+  "bundleId": "com.mystudio.a361",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
