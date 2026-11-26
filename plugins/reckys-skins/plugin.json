@@ -1,0 +1,25 @@
+{
+  "id": "reckys-skins",
+  "name": "Recky's Skins",
+  "tagline": "Kick and snare synth: seven classic drum-machine circuits plus acoustic drums",
+  "category": "Instruments",
+  "image": "plugins/reckys-skins/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Skins.component",
+    "vst3": "Reckys Skins.vst3"
+  },
+  "bundleId": "com.mystudio.reckysskins",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
