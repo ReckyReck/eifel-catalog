@@ -1,0 +1,25 @@
+{
+  "id": "reckys-space",
+  "name": "Recky's Space",
+  "tagline": "1978 multi-tap delay and reverb: audition taps, echo and a modulated reverb loop",
+  "category": "Reverb",
+  "image": "plugins/reckys-space/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Space.component",
+    "vst3": "Reckys Space.vst3"
+  },
+  "bundleId": "com.mystudio.reckysspace",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}

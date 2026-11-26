@@ -1,0 +1,25 @@
+{
+  "id": "reckys-delay",
+  "name": "Recky's Delay",
+  "tagline": "1980s stereo digital delay with pitch change, LOCK IN sampling and MIDI triggers",
+  "category": "Delay",
+  "image": "plugins/reckys-delay/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Delay.component",
+    "vst3": "Reckys Delay.vst3"
+  },
+  "bundleId": "com.mystudio.reckysdelay",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
