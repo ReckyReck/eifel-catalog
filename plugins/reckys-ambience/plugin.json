@@ -1,0 +1,25 @@
+{
+  "id": "reckys-ambience",
+  "name": "Recky's Ambience",
+  "tagline": "1981 studio digital reverb with the unit's own 17 programs, rooms to reverse",
+  "category": "Reverb",
+  "image": "plugins/reckys-ambience/faceplate.png",
+  "formats": {
+    "macos": [
+      "au",
+      "vst3"
+    ],
+    "windows": [
+      "vst3"
+    ]
+  },
+  "bundleNames": {
+    "au": "Reckys Ambience.component",
+    "vst3": "Reckys Ambience.vst3"
+  },
+  "bundleId": "com.mystudio.reckysambience",
+  "minOS": {
+    "macos": "13.0",
+    "windows": "10"
+  }
+}
